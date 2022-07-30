@@ -4,10 +4,9 @@ import com.example.wedding.email.EmailSender;
 import com.example.wedding.registration.token.ConfirmationToken;
 import com.example.wedding.registration.token.ConfirmationTokenService;
 import com.example.wedding.user.User;
-import com.example.wedding.user.UserRole;
+import com.example.wedding.security.UserRole;
 import com.example.wedding.user.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +36,6 @@ public class RegistrationService {
                         request.getEmail(),
                         request.getPassword(),
                         UserRole.USER
-
                 )
         );
 

@@ -1,8 +1,5 @@
 package com.example.wedding.user;
 
-import com.example.wedding.email.EmailSender;
-import com.example.wedding.registration.RegistrationRequest;
-import com.example.wedding.registration.RegistrationService;
 import com.example.wedding.registration.token.ConfirmationToken;
 import com.example.wedding.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -21,21 +18,20 @@ public class UserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found.";
 
-    private final UserRepository userRepository;
+    private final UserDao userDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        return userDao.findByEmail(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 String.format(USER_NOT_FOUND_MSG, email)));
     }
 
     public String signUpUser(User user) {
-        boolean userExists = userRepository
+        boolean userExists = userDao
                 .findByEmail(user.getEmail())
                 .isPresent();
 
@@ -57,7 +53,7 @@ public class UserService implements UserDetailsService {
 
         user.setPassword(encodedPassword);
 
-        userRepository.save(user);
+        userDao.save(user);
 
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);
@@ -135,6 +131,6 @@ public class UserService implements UserDetailsService {
                 "</div></div>";
     }
     public int enableUser(String email) {
-        return userRepository.enableUser(email);
+        return userDao.enableUser(email);
     }
 }

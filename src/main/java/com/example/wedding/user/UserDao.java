@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserDao extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
     @Transactional
     @Modifying
     @Query("UPDATE User a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
+            "SET a.isEnabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
 }
