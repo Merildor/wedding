@@ -1,10 +1,10 @@
-package com.example.wedding.security;
+package com.example.wedding.user;
 
 import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.example.wedding.security.UserPermission.*;
+import static com.example.wedding.user.UserPermission.*;
 
 public enum UserRole {
     USER(Sets.newHashSet()),

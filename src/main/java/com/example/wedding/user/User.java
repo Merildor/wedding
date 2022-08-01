@@ -1,6 +1,5 @@
 package com.example.wedding.user;
 
-import com.example.wedding.security.UserRole;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.*;
 
 @Data
@@ -33,6 +33,7 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
+    @Email(regexp = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)

@@ -38,10 +38,7 @@ public class ConfirmationToken {
     private LocalDateTime confirmedAt;
 
     @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "users_id"
-    )
+    @JoinColumn( nullable = false, name = "users_id")
     private User user;
 
     public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {

@@ -1,5 +1,6 @@
 package com.example.wedding.services;
 
+import com.example.wedding.dao.ConfirmationTokenDao;
 import com.example.wedding.registration.token.ConfirmationToken;
 import com.example.wedding.user.User;
 import com.example.wedding.dao.UserDao;
@@ -21,21 +22,19 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found.";
 
     private final UserDao userDao;
+    private final ConfirmationTokenDao confirmationTokenDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userDao.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(
-                                String.format(USER_NOT_FOUND_MSG, email)));
+        return userDao.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
+
+
     public String signUpUser(User user) {
-        boolean userExists = userDao
-                .findByEmail(user.getEmail())
-                .isPresent();
+        boolean userExists = userDao.findByEmail(user.getEmail()).isPresent();
 
         String token = UUID.randomUUID().toString();
 
@@ -50,20 +49,17 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("Email already taken.");
         }
 
-        String encodedPassword = bCryptPasswordEncoder
-                .encode(user.getPassword());
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
         user.setPassword(encodedPassword);
 
         userDao.save(user);
 
-        confirmationTokenService.saveConfirmationToken(
-                confirmationToken);
-
-//        TODO: SEND EMAIL
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         return token;
     }
+
     public int enableUser(String email) {
         return userDao.enableUser(email);
     }

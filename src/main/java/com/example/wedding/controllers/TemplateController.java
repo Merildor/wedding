@@ -10,13 +10,11 @@ public class TemplateController {
 
     @GetMapping("login")
     public String getLogin() {
-
         return "login";
     }
 
     @GetMapping("homepage")
     public String getHomepage() {
-
         return "homepage";
     }
 }

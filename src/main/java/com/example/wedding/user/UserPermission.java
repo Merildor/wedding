@@ -1,4 +1,4 @@
-package com.example.wedding.security;
+package com.example.wedding.user;
 
 public enum UserPermission {
     USER_READ("user:read"),

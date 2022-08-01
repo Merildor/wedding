@@ -1,7 +1,7 @@
 package com.example.wedding.security.config;
 
 import com.example.wedding.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,21 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.wedding.security.UserRole.ADMIN;
+import static com.example.wedding.user.UserRole.ADMIN;
 
 
 @Configuration
+@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -66,8 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider =
-                new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         provider.setUserDetailsService(userService);
         return provider;
