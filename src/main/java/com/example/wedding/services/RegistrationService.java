@@ -1,11 +1,11 @@
-package com.example.wedding.registration;
+package com.example.wedding.services;
 
 import com.example.wedding.email.EmailSender;
+import com.example.wedding.registration.EmailValidator;
+import com.example.wedding.registration.RegistrationRequest;
 import com.example.wedding.registration.token.ConfirmationToken;
-import com.example.wedding.registration.token.ConfirmationTokenService;
 import com.example.wedding.user.User;
 import com.example.wedding.security.UserRole;
-import com.example.wedding.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

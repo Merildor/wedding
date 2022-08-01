@@ -1,5 +1,6 @@
-package com.example.wedding.email;
+package com.example.wedding.services;
 
+import com.example.wedding.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,9 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 @AllArgsConstructor
-public class EmailService implements EmailSender{
+public class EmailSenderService implements EmailSender {
 
-    private final static Logger LOGGER = LoggerFactory
-            .getLogger(EmailService.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(EmailSenderService.class);
 
     private final JavaMailSender mailSender;
 
@@ -27,11 +27,11 @@ public class EmailService implements EmailSender{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("hello@amigoscode.com");
-            mailSender.send(mimeMessage);
+                        helper.setText(email, true);
+                        helper.setTo(to);
+                        helper.setSubject("Confirm your email");
+                        helper.setFrom("hello@amigoscode.com");
+                        mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");

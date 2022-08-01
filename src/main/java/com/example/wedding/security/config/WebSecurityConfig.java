@@ -1,7 +1,6 @@
 package com.example.wedding.security.config;
 
-import com.example.wedding.security.UserRole;
-import com.example.wedding.user.UserService;
+import com.example.wedding.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.wedding.security.UserRole.ADMIN;
-import static com.example.wedding.security.UserRole.USER;
+
 
 @Configuration
 @EnableWebSecurity
@@ -36,19 +35,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*","/api/v1/registration/**").permitAll()
-                .antMatchers("/api/v1/users/**").hasRole(ADMIN.name())
+                .antMatchers("/api/v1/**").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("/homepage", true)
                     .passwordParameter("password")
                     .usernameParameter("username")
                 .and()
                 .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                     .key("randomUUIDwhichwewillimplementlater")
+                    .userDetailsService(userService)
                     .rememberMeParameter("remember-me")
                 .and()
                 .logout()
@@ -59,8 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/login");
     }
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

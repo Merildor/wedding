@@ -1,5 +1,7 @@
-package com.example.wedding.registration.token;
+package com.example.wedding.services;
 
+import com.example.wedding.registration.token.ConfirmationToken;
+import com.example.wedding.dao.ConfirmationTokenDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +12,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ConfirmationTokenService {
 
-    private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final ConfirmationTokenDao confirmationTokenDao;
 
     public void saveConfirmationToken(ConfirmationToken token) {
-        confirmationTokenRepository.save(token);
+        confirmationTokenDao.save(token);
     }
 
     public Optional<ConfirmationToken> getToken(String token) {
-        return confirmationTokenRepository.findByToken(token);
+        return confirmationTokenDao.findByToken(token);
     }
 
     public int setConfirmedAt(String token) {
-        return confirmationTokenRepository.updateConfirmedAt(
+        return confirmationTokenDao.updateConfirmedAt(
                 token, LocalDateTime.now());
     }
 }

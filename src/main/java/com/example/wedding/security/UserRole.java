@@ -7,7 +7,7 @@ import java.util.Set;
 import static com.example.wedding.security.UserPermission.*;
 
 public enum UserRole {
-    USER(Sets.newHashSet(USER_READ, USER_WRITE)),
+    USER(Sets.newHashSet()),
     ADMIN(Sets.newHashSet(USER_READ, USER_WRITE));
 
     private final Set<UserPermission> permissions;
@@ -19,4 +19,6 @@ public enum UserRole {
     public Set<UserPermission> getPermissions() {
         return permissions;
     }
+
+
 }

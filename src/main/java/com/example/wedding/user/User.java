@@ -1,6 +1,7 @@
 package com.example.wedding.user;
 
 import com.example.wedding.security.UserRole;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,16 +10,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
+@Data
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name="users")
 public class User implements UserDetails {
-
 
     @SequenceGenerator(
             name = "user_sequence",
@@ -50,12 +50,12 @@ public class User implements UserDetails {
         this.userRole = userRole;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(authority);
+        String ROLE_PREFIX = "ROLE_";
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + userRole.name()));
+        return list;
     }
 
     @Override
